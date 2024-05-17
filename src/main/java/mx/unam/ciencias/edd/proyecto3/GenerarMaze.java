@@ -7,21 +7,21 @@ import java.util.Random;
 
 public class GenerarMaze {
 
-    /* Bandera obligatoria para permitir generar un laberinto*/
+    /* Bandera  permite generar un laberinto*/
     private  static boolean g = false;
-    /* Bandera obligatoria para asignar la cant de columnas*/
+    /* Bandera asigna columnas*/
     private static boolean w = false;
-    /* Bandera obligatoria para asignar la cant de renglones*/
+    /* Bandera  asigna  renglones*/
     private static boolean h = false;
-    /* Bandera opcional para saber si se desea brindar una cierta semilla*/
+    /* Bandera opcional para brindar semilla*/
     private static boolean s = false;
 
     /* Las columnas del laberinto*/
     private static int columnas;
     /* Los renglones del laberinto*/
-    private static int semilla;
-    /* Bandera obligatoria para asignar la cant de columnas*/
     private static  int renglones;
+    /* Registro de semilla */
+    private static int semilla;
 
 
     private static  boolean checkBanderas(String[] entrada) {
@@ -50,7 +50,6 @@ public class GenerarMaze {
                                 System.out.println("Asegúrate de incluir un valor para la semilla.");
 
                             }
-                            //System.out.println(semilla);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Asegúrate de incluir un valor para la semilla.");
                         } catch (NumberFormatException e) {
@@ -70,7 +69,6 @@ public class GenerarMaze {
                                 System.out.println("Asegúrate de incluir un valor para las columnas.");
 
                             }
-                            //System.out.println(columnas);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Asegúrate de incluir un valor para el ancho.");
                         } catch (NumberFormatException e) {
@@ -90,7 +88,6 @@ public class GenerarMaze {
                                 System.out.println("Asegúrate de incluir un valor para los renglones.");
 
                             }
-                            //System.out.println(renglones);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Asegúrate de incluir un valor para la altura.");
                         } catch (NumberFormatException e) {
@@ -108,9 +105,8 @@ public class GenerarMaze {
         }else{
             System.out.println("\nAsegurate de incluir las siguientes banderas:\n '-g' obligatoria para generar un laberinto.\n '-h' obligatoria para indicar el numero de renglones del laberinto.\n '-w' obligatoria para indicar el numero de columnas del laberinto.\n '-s' OPCIONAL por si deseas agregar una semilla para generar el laberinto.\n");
         }
-
-        
     }
+
 
 
 
