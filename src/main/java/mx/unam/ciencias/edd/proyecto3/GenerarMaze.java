@@ -31,7 +31,7 @@ public class GenerarMaze {
             if (b.equals("-h")) h = true;
             if (b.equals("-s")) s = true;
         }
-        return g && w && h;
+        return (g && w )&& h;
     }
 
 
@@ -41,11 +41,16 @@ public class GenerarMaze {
                 switch (entrada[i]) {
                     case "-s":
                         try {
-                            semilla = Integer.parseInt(entrada[i + 1]);
-                            if (semilla <= 0) {
-                                throw new IllegalArgumentException("El valor de la semilla debe ser un número positivo.");
+                            if((!entrada[i + 1].equals("-w")) && (!entrada[i + 1].equals("-g")) && (!entrada[i + 1].equals("-h"))){
+                                semilla = Integer.parseInt(entrada[i + 1]);
+                                if (semilla <= 0) {
+                                    System.out.println("El valor de la semilla debe ser un número positivo.");
+                                }
+                            }else{
+                                System.out.println("Asegúrate de incluir un valor para la semilla.");
+
                             }
-                            System.out.println(semilla);
+                            //System.out.println(semilla);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Asegúrate de incluir un valor para la semilla.");
                         } catch (NumberFormatException e) {
@@ -56,11 +61,16 @@ public class GenerarMaze {
                         break;
                     case "-w":
                         try {
-                            columnas = Integer.parseInt(entrada[i + 1]);
-                            if (columnas <= 0) {
-                                throw new IllegalArgumentException("El valor del ancho debe ser un número positivo.");
+                            if((!entrada[i + 1].equals("-s")) && (!entrada[i + 1].equals("-g")) && (!entrada[i + 1].equals("-h"))){
+                                columnas = Integer.parseInt(entrada[i + 1]);
+                                if (columnas <= 0) {
+                                    System.out.println("El valor del ancho debe ser un número positivo.");
+                                }
+                            }else{
+                                System.out.println("Asegúrate de incluir un valor para las columnas.");
+
                             }
-                            System.out.println(columnas);
+                            //System.out.println(columnas);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Asegúrate de incluir un valor para el ancho.");
                         } catch (NumberFormatException e) {
@@ -71,11 +81,16 @@ public class GenerarMaze {
                         break;
                     case "-h":
                         try {
-                            renglones = Integer.parseInt(entrada[i + 1]);
-                            if (renglones <= 0) {
-                                throw new IllegalArgumentException("El valor de la altura debe ser un número positivo.");
+                            if((!entrada[i + 1].equals("-w")) && (!entrada[i + 1].equals("-g")) && (!entrada[i + 1].equals("-s"))){
+                                renglones = Integer.parseInt(entrada[i + 1]);
+                                if (renglones <= 0) {
+                                    System.out.println("El valor de la altura debe ser un número positivo.");
+                                } 
+                            }else{
+                                System.out.println("Asegúrate de incluir un valor para los renglones.");
+
                             }
-                            System.out.println(renglones);
+                            //System.out.println(renglones);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Asegúrate de incluir un valor para la altura.");
                         } catch (NumberFormatException e) {
@@ -90,11 +105,11 @@ public class GenerarMaze {
                 Random rand = new Random();
                 semilla = rand.nextInt(100);
             }
+            System.out.println(semilla);
         }else{
-            if(!g)throw new IllegalArgumentException("Asegurate de incluir la bandera '-g' obligatoria para generar un laberinto.");
-            if(!w)throw new IllegalArgumentException("Asegurate de incluir la bandera '-w' obligatoria para indicar el numero de columnas.");
-            if(!h)throw new IllegalArgumentException("Asegurate de incluir la bandera '-h' obligatoria para indicar el numero de renglones.");
+            System.out.println("\nAsegurate de incluir las siguientes banderas:\n '-g' obligatoria para generar un laberinto.\n '-h' obligatoria para indicar el numero de renglones del laberinto.\n '-w' obligatoria para indicar el numero de columnas del laberinto.\n '-s' OPCIONAL por si deseas agregar una semilla para generar el laberinto.\n");
         }
+
         
     }
 
