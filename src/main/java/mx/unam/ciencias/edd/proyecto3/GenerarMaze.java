@@ -101,10 +101,15 @@ public class GenerarMaze {
         }
     }
 
-    /**Metodo para generar un laberinto */
+    /**Metodo para generar el archivo mze que contiene un laberinto valido*/
     public static void generarMaze() {
         Random random = s ? new Random(semilla) : new Random();
         //Maze maze = new Maze(columnas, renglones, random);
+        //agregamos los bytes indispensables M A Z E
+        //agregamos las columnas y renglones en byte que serian el 0x04 byte para columnas y 0x05byte para renglones
+        
+        //imprimimos imprimimos contenido para el archivo mze (deberan ser columnas x renglones bytes en total)
+        
     }
 
 }
