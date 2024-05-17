@@ -105,7 +105,6 @@ public class GenerarMaze {
                 Random rand = new Random();
                 semilla = rand.nextInt(100);
             }
-            System.out.println(semilla);
         }else{
             System.out.println("\nAsegurate de incluir las siguientes banderas:\n '-g' obligatoria para generar un laberinto.\n '-h' obligatoria para indicar el numero de renglones del laberinto.\n '-w' obligatoria para indicar el numero de columnas del laberinto.\n '-s' OPCIONAL por si deseas agregar una semilla para generar el laberinto.\n");
         }
