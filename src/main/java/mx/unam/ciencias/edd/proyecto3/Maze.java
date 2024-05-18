@@ -1,73 +1,130 @@
 package mx.unam.ciencias.edd.proyecto3;
 
-import mx.unam.ciencias.edd.*;
-
+import java.util.Random;
 
 /** 
  * Clase que representa un laberinto
  */
-public class Maze{
+public class Maze {
 
     /**Clase interna para la representación de cada cuarto*/
     private class Room {
-        private byte wallsAndScore; // 8 bits: 4 bits mas significativos para el puntaje, 4 bits menos significativos para las paredes
+        private int wallAndScore; 
 
-        private Room(byte wallsAndScore) {
-            this.wallsAndScore = wallsAndScore;
+        private Room(int wallsAndScore) {
+            this.wallAndScore = wallsAndScore;
         }
 
         private int getScore() {
-            return (wallsAndScore & 0xF0) >> 4;
+            return (wallAndScore & 0xF0) >> 4;
         }
 
-        private byte getWalls() {
-            return wallsAndScore & 0x0F;
+        private byte getWall() {
+            return (byte) (wallAndScore & 0x0F);
         }
 
-        private void setWalls(int walls) {
-            wallsAndScore = (wallsAndScore & 0xF0) | (walls & 0x0F);
+        private void setWall(int wall) {
+            wallAndScore = (wallAndScore & 0xF0) | (wall & 0x0F);
         }
-
-        /**
-         * 
-        private void setScore(int score) {
-            wallsAndScore = (wallsAndScore & 0x0F) | ((score & 0x0F) << 4);
-        }
-         */
     }
 
     private int renglones, columnas;
     private Room[][] maze;
-    private Room incio, fin;
+    private Random random; 
 
-    /** Puertas*/
-    private static final byte ESTE = 0001, NORTE = 0010, OESTE = 0100, SUR = 1000;
+    private int s1, s2, f1, f2; // me refiero al índice
+    private boolean hayRuta = false;
+    private static final int ESTE = 1, NORTE = 2, OESTE = 4, SUR = 8;
 
-    /**constructor de un laberinto valido*/
+    /**Constructor de un laberinto valido*/
     public Maze(int columnas, int renglones, Random random) {
         this.columnas = columnas;
         this.renglones = renglones;
+        this.random = random;
         this.maze = new Room[columnas][renglones];
-        maze.iniciarMaze(random);
+        iniciarMaze();
     }
 
-
     /**Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido*/
-    private void iniciarMaze(Random random){
-        //la idea es inciar el laberinto de manera que todos los cuartos tengan todas las paredes y su score sea aleatorio
+    private void iniciarMaze() {
+        allWallrandomScore();
+        setEntradaySalida();
+        boolean[][] visitados = new boolean[columnas][renglones];
+        conectaEntradaySalida(s1, f1, visitados);
+    }
+
+    /**Método que inicia el laberinto con todas las paredes y un score aleatorio*/
+    private void allWallrandomScore() {
         for (int x = 0; x < columnas; x++) {
             for (int y = 0; y < renglones; y++) {
-                int score = random.nextInt(16); 
-                maze[x][y] = new Room(score << 4 | 0x0F); 
+                int score = random.nextInt(16);
+                maze[x][y] = new Room(score << 4 | 0x0F); // por default todas las  paredes presentes 
             }
         }
+    }
 
+    private void setEntradaySalida() {
+        s1 = random.nextInt(columnas);
+        f1 = (s1 == columnas - 1 || s1 == 0) ? random.nextInt(renglones) : (random.nextBoolean() ? 0 : renglones - 1);
+        do {
+            s2 = random.nextInt(columnas);
+            f2 = (s2 == columnas - 1 || s2 == 0) ? random.nextInt(renglones) : (random.nextBoolean() ? 0 : renglones - 1);
+        } while (s1 == s2 && f1 == f2);
+    }
 
+    private void conectaEntradaySalida(int x, int y, boolean[][] visitados) {
+        if (x == s2 && y == f2) {
+            hayRuta = true;
+            return;
+        }
 
+        visitados[x][y] = true;
+        int[] direcciones = {ESTE, NORTE, OESTE, SUR};
+        barajar(direcciones);
 
-    } 
+        for (int direccion : direcciones) {
+            int nx = x, ny = y;
+            if (direccion == ESTE) nx++;
+            else if (direccion == NORTE) ny--;
+            else if (direccion == OESTE) nx--;
+            else if (direccion == SUR) ny++;
 
+            if (nx >= 0 && nx < columnas && ny >= 0 && ny < renglones && !visitados[nx][ny]) {
+                demolerPared(x, y, direccion);
+                demolerPared(nx, ny, getDireccionOpuesta(direccion));
+                conectaEntradaySalida(nx, ny, visitados);
+                if (hayRuta) return;
+            }
+        }
+    }
 
+    private void barajar(int[] arr) {
+        for (int i = arr.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            int aux = arr[j];
+            arr[j] = arr[i];
+            arr[i] = aux;
+        }
+    }
 
+    private void demolerPared(int x, int y, int direccion) {
+        int mask = ~direccion;
+        int actual = maze[x][y].getWall();
+        maze[x][y].setWall(actual & mask);
+    }
 
+    private int getDireccionOpuesta(int direccion) {
+        switch (direccion) {
+            case ESTE:
+                return OESTE;
+            case NORTE:
+                return SUR;
+            case OESTE:
+                return ESTE;
+            case SUR:
+                return NORTE;
+            default:
+                throw new IllegalArgumentException("Dirección desconocida.");
+        }
+    }
 }
