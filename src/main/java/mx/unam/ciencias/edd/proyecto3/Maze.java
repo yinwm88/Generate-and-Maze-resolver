@@ -127,4 +127,15 @@ public class Maze {
                 throw new IllegalArgumentException("Dirección desconocida.");
         }
     }
+
+    public byte[] getMazeByte(){
+        byte[] mze = new byte[columnas * renglones];
+        int i = 0;
+        for (int y = 0; y < renglones; y++) {
+            for (int x = 0; x < columnas; x++) {
+                mze[i++] = (byte) maze[x][y].wallAndScore;
+            }
+        }
+        return mze;
+    }
 }

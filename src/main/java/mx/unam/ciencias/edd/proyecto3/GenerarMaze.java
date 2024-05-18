@@ -102,16 +102,29 @@ public class GenerarMaze {
     }
 
     /**Metodo para generar el archivo mze que contiene un laberinto valido*/
-    public static void generarMaze() {
+    public static void generarMze() {
         Random random = s ? new Random(semilla) : new Random();
         Maze maze = new Maze(columnas, renglones, random);
-        
+        byte[] mze = new byte[6 + columnas * renglones];
+        byte[] mazeByte = maze.getMazeByte();
+        int i = 0;
         //agregamos los bytes indispensables M A Z E
+        mze[i] = (byte)(0x4d);
+        mze[++i] = (byte)(0x41);
+        mze[++i] = (byte)(0x5a);
+        mze[++i] = (byte)(0x45);
 
-        //agregamos las columnas y renglones en byte que serian el 0x04 byte para columnas y 0x05byte para renglones
+        //agregamos las columnas y renglones en byte 
+        mze[++i] = (byte)(columnas & 0xFF);
+        mze[++i] = (byte)(renglones & 0xFF);
         
+        for(byte h : mazeByte){
+            mze[++i] = h;
+        }
+
         //imprimimos contenido para el archivo mze (deberan ser columnas x renglones bytes en total)
-        
+        for (byte b : mze) {
+            System.out.printf("%02X ", b);
+        }
     }
-
 }

@@ -27,7 +27,7 @@ public class Proyecto3 {
         }
          */
         GenerarMaze.getValues(args);
-
+        GenerarMaze.generarMze();
     }
 
 }
