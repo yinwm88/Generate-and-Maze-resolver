@@ -37,15 +37,16 @@ public class GenerarMaze {
 
     /**Imprime el uso correcto del programa*/
     private static void printUsage() {
-        System.out.println("\nAsegúrate de incluir las siguientes banderas:");
-        System.out.println(" '-g' obligatoria para generar un laberinto.");
-        System.out.println(" '-w' obligatoria para indicar el número de columnas del laberinto.");
-        System.out.println(" '-h' obligatoria para indicar el número de renglones del laberinto.");
-        System.out.println(" '-s' opcional si deseas agregar una semilla para generar el laberinto.\n");
+        System.err.println("\nAsegúrate de incluir las siguientes banderas:");
+        System.err.println(" '-g' obligatoria para generar un laberinto.");
+        System.err.println(" '-w' obligatoria para indicar el número de columnas del laberinto.");
+        System.err.println(" '-h' obligatoria para indicar el número de renglones del laberinto.");
+        System.err.println(" '-s' opcional si deseas agregar una semilla para generar el laberinto.\n");
     }
 
     /**Metodo para obtener los valores del laberinto*/
-    public static void getValues(String[] entrada) {
+    public static boolean getValues(String[] entrada) {
+        boolean esValido=true;
         if (checkBanderas(entrada)) {
             for (int i = 0; i < entrada.length; i++) {
                 switch (entrada[i]) {
@@ -54,51 +55,62 @@ public class GenerarMaze {
                             try {
                                 semilla = Integer.parseInt(entrada[i + 1]);
                                 if (semilla <= 0) {
-                                    System.out.println("El valor de la semilla debe ser un número positivo.");
+                                    esValido &=false;
+                                    System.err.println("El valor de la semilla debe ser un número positivo.");
                                 }
                             } catch (NumberFormatException e) {
-                                System.out.println("El valor de la semilla debe ser un número.");
+                                esValido &=false;
+                                System.err.println("El valor de la semilla debe ser un número.");
                             }
                             i++;
                         } else {
-                            System.out.println("Asegúrate de incluir un valor para la semilla.");
+                            esValido &=false;
+                            System.err.println("Asegúrate de incluir un valor para la semilla.");
                         }
                         break;
                     case "-w":
                         if (i + 1 < entrada.length && !entrada[i + 1].startsWith("-")) {
                             try {
                                 columnas = Integer.parseInt(entrada[i + 1]);
-                                if (columnas <= 0) {
-                                    System.out.println("El valor de las columnas debe ser un número positivo.");
+                                if (columnas < 2 || columnas > 255) {
+                                    esValido &=false;
+                                    System.err.println("El valor de las columnas debe variar entre 2 y 255.");
                                 }
                             } catch (NumberFormatException e) {
-                                System.out.println("El valor de las columnas debe ser un número.");
+                                esValido &=false;
+                                System.err.println("El valor de las columnas debe ser un número.");
                             }
                             i++;
                         } else {
-                            System.out.println("Asegúrate de incluir un valor para las columnas.");
+                            esValido &=false;
+                            System.err.println("Asegúrate de incluir un valor para las columnas.");
                         }
                         break;
                     case "-h":
                         if (i + 1 < entrada.length && !entrada[i + 1].startsWith("-")) {
                             try {
                                 renglones = Integer.parseInt(entrada[i + 1]);
-                                if (renglones <= 0) {
-                                    System.out.println("El valor de los renglonesdebe ser un número positivo.");
+                                if (renglones < 2 || renglones > 255) {
+                                    esValido &=false;
+                                    System.err.println("El valor de los renglones debe variar entre 2 y 255.");
                                 }
                             } catch (NumberFormatException e) {
-                                System.out.println("El valor de los renglones debe ser un número.");
+                                esValido &=false;
+                                System.err.println("El valor de los renglones debe ser un número.");
                             }
                             i++;
                         } else {
-                            System.out.println("Asegúrate de incluir un valor para los renglones.");
+                            esValido &=false;
+                            System.err.println("Asegúrate de incluir un valor para los renglones.");
                         }
                         break;
                 }
             }
         } else {
+            esValido&=false;
             printUsage();
         }
+        return esValido;
     }
 
     /**Metodo para generar el archivo mze que contiene un laberinto valido*/

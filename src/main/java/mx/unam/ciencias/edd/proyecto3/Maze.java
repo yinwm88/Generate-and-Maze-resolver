@@ -37,18 +37,19 @@ public class Maze {
     private static final int ESTE = 1, NORTE = 2, OESTE = 4, SUR = 8;
 
     /**Constructor de un laberinto valido*/
-    public Maze(int columnas, int renglones, Random random) {
+    public Maze(int columnas, int renglones, Random random) {            
         this.columnas = columnas;
         this.renglones = renglones;
         this.random = random;
         this.maze = new Room[columnas][renglones];
-        iniciarMaze();
+        iniciarMaze();  
     }
 
     /**Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido*/
     private void iniciarMaze() {
         allWallrandomScore();
         setEntradaySalida();
+        demolerParedEntradaSalida();
         boolean[][] visitados = new boolean[columnas][renglones];
         conectaEntradaySalida(s1, f1, visitados);
     }
@@ -70,6 +71,30 @@ public class Maze {
             s2 = random.nextInt(columnas);
             f2 = (s2 == columnas - 1 || s2 == 0) ? random.nextInt(renglones) : (random.nextBoolean() ? 0 : renglones - 1);
         } while (s1 == s2 && f1 == f2);
+    }
+
+    private void demolerParedEntradaSalida() {
+        // Derribar pared en la entrada
+        if (s1 == 0) {
+            demolerPared(s1, f1, OESTE); 
+        } else if (s1 == columnas - 1) {
+            demolerPared(s1, f1, ESTE); 
+        } else if (f1 == 0) {
+            demolerPared(s1, f1, NORTE);
+        } else if (f1 == renglones - 1) {
+            demolerPared(s1, f1, SUR);
+        }
+
+        // Derribar pared en la salida
+        if (s2 == 0) {
+            demolerPared(s2, f2, OESTE);
+        } else if (s2 == columnas - 1) {
+            demolerPared(s2, f2, ESTE); 
+        } else if (f2 == 0) {
+            demolerPared(s2, f2, NORTE); 
+        } else if (f2 == renglones - 1) {
+            demolerPared(s2, f2, SUR); 
+        }
     }
 
     private void conectaEntradaySalida(int x, int y, boolean[][] visitados) {
