@@ -149,7 +149,7 @@ public class Maze {
             case SUR:
                 return NORTE;
             default:
-                throw new IllegalArgumentException("Dirección desconocida.");
+                throw new IllegalArgumentException("¿Que direccion es esa?.");
         }
     }
 
