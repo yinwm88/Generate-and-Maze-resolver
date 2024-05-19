@@ -59,7 +59,7 @@ public class Maze {
         for (int x = 0; x < columnas; x++) {
             for (int y = 0; y < renglones; y++) {
                 int score = random.nextInt(16);
-                maze[x][y] = new Room(score << 4 | 0x0F); // por default todas las  paredes presentes 
+                maze[x][y] = new Room(score << 4 | 0x0F); // por default es mas facil poner todas las paredes, para despues derrumbarlas
             }
         }
     }
