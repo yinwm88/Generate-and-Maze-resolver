@@ -135,6 +135,7 @@ public class GenerarMaze {
             mze[++i] = h;
         }
 
+        //imprimimos contenido para el archivo mze (deberan ser columnas x renglones bytes en total)
         try{
             PrintStream out=new PrintStream(System.out);
             for (byte b : mze) {
@@ -146,7 +147,6 @@ public class GenerarMaze {
         }
 
 
-        //imprimimos contenido para el archivo mze (deberan ser columnas x renglones bytes en total)
         
     }
 }

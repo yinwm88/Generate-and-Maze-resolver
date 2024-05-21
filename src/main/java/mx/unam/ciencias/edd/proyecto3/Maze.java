@@ -163,4 +163,8 @@ public class Maze {
         }
         return mze;
     }
+
+    // Metodo para ver si tiene solucion un lab dado un arreglo de int que seran los cuartos
+
+
 }
