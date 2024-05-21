@@ -164,7 +164,7 @@ public class Maze {
         return mze;
     }
 
-    // Metodo para ver si tiene solucion un lab dado un arreglo de int que seran los cuartos
-
+    //  Metodo que regresa el laberinto como SVG
+    //  Metodo que regresa el svg de la ruta encontrada
 
 }

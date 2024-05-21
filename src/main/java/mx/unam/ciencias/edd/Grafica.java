@@ -35,7 +35,7 @@ public class Grafica<T> implements Coleccion<T> {
 
     /* Clase interna privada para vértices. */
     private class Vertice implements VerticeGrafica<T>,
-                          ComparableIndexable<Vertice> {
+                        ComparableIndexable<Vertice> {
 
         /* El elemento del vértice. */
         private T elemento;
@@ -250,7 +250,7 @@ public class Grafica<T> implements Coleccion<T> {
         if(!sonVecinos(a, b))
             throw new IllegalArgumentException("No están conectados.");
 
-       for(Vecino vecino : vA.vecinos)
+        for(Vecino vecino : vA.vecinos)
             if(vecino.vecino.elemento.equals(vB.elemento))
                 vA.vecinos.elimina(vecino);
 
@@ -299,14 +299,14 @@ public class Grafica<T> implements Coleccion<T> {
      * @throws NoSuchElementException si a o b no son elementos de la gráfica.
      */
     public boolean sonVecinos(T a, T b) {
-     Vertice vA = (Vertice)vertice(a);
-     Vertice vB = (Vertice)vertice(b);
+        Vertice vA = (Vertice)vertice(a);
+        Vertice vB = (Vertice)vertice(b);
 
-     for(Vecino v : vA.vecinos)
-        if(v.vecino.equals(vB))
-            return true;
+        for(Vecino v : vA.vecinos)
+            if(v.vecino.equals(vB))
+                return true;
 
-     return false;   
+        return false;   
     }
 
     /**
@@ -343,25 +343,25 @@ public class Grafica<T> implements Coleccion<T> {
      *         es menor o igual que cero.
      */
     public void setPeso(T a, T b, double peso) {
-       Vertice va = (Vertice)vertice(a);
-       Vertice vb = (Vertice)vertice(b);
+        Vertice va = (Vertice)vertice(a);
+        Vertice vb = (Vertice)vertice(b);
 
-        if(peso<=0)
-            throw new IllegalArgumentException("El peso es menor o igual a 0.");
+            if(peso<=0)
+                throw new IllegalArgumentException("El peso es menor o igual a 0.");
 
-        if(!sonVecinos(a, b))
-            throw new IllegalArgumentException("Los vértices no son vecinos.");             
-        
-        for (Vecino vecino : va.vecinos)
-            if (vecino.vecino.equals(vb)) {
-                vecino.peso = peso;
-                break;
-            }
+            if(!sonVecinos(a, b))
+                throw new IllegalArgumentException("Los vértices no son vecinos.");             
             
-        for (Vecino vecino : vb.vecinos)
-            if (vecino.vecino.equals(va)) {
-                vecino.peso = peso;
-            }    
+            for (Vecino vecino : va.vecinos)
+                if (vecino.vecino.equals(vb)) {
+                    vecino.peso = peso;
+                    break;
+                }
+                
+            for (Vecino vecino : vb.vecinos)
+                if (vecino.vecino.equals(va)) {
+                    vecino.peso = peso;
+                }    
     }
 
     /**
@@ -533,7 +533,7 @@ public class Grafica<T> implements Coleccion<T> {
     public String toString(){
         String s = "{";
         for (Vertice v : vertices) 
-           s+=String.format("%s, ", v.elemento.toString());
+            s+=String.format("%s, ", v.elemento.toString());
     
         s += "}, {";
 
@@ -549,7 +549,6 @@ public class Grafica<T> implements Coleccion<T> {
         return s + "}";
     }
 
-  
 
     /**
      * Nos dice si la gráfica es igual al objeto recibido.
@@ -572,10 +571,10 @@ public class Grafica<T> implements Coleccion<T> {
                 return false;
     
         for(Vertice v : vertices){
-           Vertice u = (Vertice)grafica.vertice(v.elemento);
-        
-           if(v.vecinos.getLongitud()!=u.vecinos.getLongitud())
-                return false;
+            Vertice u = (Vertice)grafica.vertice(v.elemento);
+            
+            if(v.vecinos.getLongitud()!=u.vecinos.getLongitud())
+                    return false;
 
             for(Vecino x : v.vecinos){
                 Boolean cont = false;
@@ -636,10 +635,10 @@ public class Grafica<T> implements Coleccion<T> {
         while(!q.esVacia()){
             Vertice u = q.saca();
             for(Vecino vecino : u.vecinos){
-                   if(vecino.vecino.distancia == Double.MAX_VALUE){
-                    vecino.vecino.distancia = u.distancia + 1;
-                    q.mete(vecino.vecino);
-                   } 
+                    if(vecino.vecino.distancia == Double.MAX_VALUE){
+                        vecino.vecino.distancia = u.distancia + 1;
+                        q.mete(vecino.vecino);
+                    } 
             }
         }
 
@@ -684,13 +683,13 @@ public class Grafica<T> implements Coleccion<T> {
      *         la gráfica.
      */
     public Lista<VerticeGrafica<T>> dijkstra(T origen, T destino) {
-       Vertice s = (Vertice)vertice(origen);
-       Vertice t = (Vertice)vertice(destino);
+        Vertice s = (Vertice)vertice(origen);
+        Vertice t = (Vertice)vertice(destino);
+            
+        for(Vertice v : vertices)
+                v.distancia = Double.MAX_VALUE;
         
-       for(Vertice v : vertices)
-            v.distancia = Double.MAX_VALUE;
-       
-        s.distancia = 0;
+            s.distancia = 0;
         
         MonticuloDijkstra <Vertice> monticulo = new MonticuloMinimo<>(vertices);
 
