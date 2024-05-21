@@ -1,6 +1,7 @@
 package mx.unam.ciencias.edd.proyecto3;
 
 import mx.unam.ciencias.edd.*;
+import java.io.PrintStream;
 import java.util.Random;
 
 /**
@@ -134,9 +135,18 @@ public class GenerarMaze {
             mze[++i] = h;
         }
 
-        //imprimimos contenido para el archivo mze (deberan ser columnas x renglones bytes en total)
-        for (byte b : mze) {
-            System.out.printf("%02X ", b);
+        try{
+            PrintStream out=new PrintStream(System.out);
+            for (byte b : mze) {
+                out.write(b);
+            }
+            out.close();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
+
+
+        //imprimimos contenido para el archivo mze (deberan ser columnas x renglones bytes en total)
+        
     }
 }
