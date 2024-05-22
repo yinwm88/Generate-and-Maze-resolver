@@ -4,10 +4,12 @@ import java.util.Random;
 
 /** 
  * Clase que representa un laberinto
- */
+*/
 public class Maze {
 
-    /**Clase interna para la representación de cada cuarto*/
+    /**
+     * Clase interna para la representación de cada cuarto
+    */
     private class Room {
         private int wallAndScore; 
 
@@ -36,17 +38,34 @@ public class Maze {
     private boolean hayRuta = false;
     private static final int ESTE = 1, NORTE = 2, OESTE = 4, SUR = 8;
 
-    /**Constructor de un laberinto valido*/
+    /**
+    * Constructor para generar  un laberinto valido
+    */
     public Maze(int columnas, int renglones, Random random) {            
         this.columnas = columnas;
         this.renglones = renglones;
         this.random = random;
         this.maze = new Room[columnas][renglones];
-        iniciarMaze();  
     }
 
-    /**Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido*/
-    private void iniciarMaze() {
+    /**
+    * Constructor para resolver  un laberinto dado
+    */
+    public Maze(byte[] mazeByte, int columnas, int renglones) {
+        this.columnas = columnas;
+        this.renglones = renglones;
+        this.maze = new Room[columnas][renglones];
+        int i = 0;
+        for (int y = 0; y < renglones; y++) 
+            for (int x = 0; x < columnas; x++) 
+                maze[x][y] = new Room(mazeByte[i++]);
+            
+    }
+
+    /**
+    * Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido*
+    */
+    public void iniciarMaze() {
         allWallrandomScore();
         setEntradaySalida();
         demolerParedEntradaSalida();
@@ -54,16 +73,28 @@ public class Maze {
         conectaEntradaySalida(s1, f1, visitados);
     }
 
-    /**Método que inicia el laberinto con todas las paredes y un score aleatorio*/
+    /**
+    * Metodo que agrega un cuarto al laberinto con su puntaje y paredes corresondientes
+    */
+    public void agregarRoom(int x, int y, int score, int walls){
+        maze[x][y] = new Room(score << 4 | walls);
+    }
+
+    /**
+    * Método que inicia el laberinto con todas las paredes y un score aleatorio
+    */
     private void allWallrandomScore() {
         for (int x = 0; x < columnas; x++) {
             for (int y = 0; y < renglones; y++) {
                 int score = random.nextInt(16);
-                maze[x][y] = new Room(score << 4 | 0x0F); // por default es mas facil poner todas las paredes, para despues derrumbarlas
-            }
+                agregarRoom(x, y, score, 0x0F); // por default es mas facil poner todas las paredes, para despues derrumbarlas
+            }   
         }
     }
 
+    /**
+    * Metodo que modifica la entrada y salida del laberinto por crearse
+    */
     private void setEntradaySalida() {
         s1 = random.nextInt(columnas);
         f1 = (s1 == columnas - 1 || s1 == 0) ? random.nextInt(renglones) : (random.nextBoolean() ? 0 : renglones - 1);
@@ -73,6 +104,9 @@ public class Maze {
         } while (s1 == s2 && f1 == f2);
     }
 
+    /**
+    * Metodo que crea puertas en la salida y entrada
+    */
     private void demolerParedEntradaSalida() {
         // Derribar pared en la entrada
         if (s1 == 0) {
@@ -97,6 +131,9 @@ public class Maze {
         }
     }
 
+    /**
+    * Metodo que conecta la entrada con  la salida
+    */
     private void conectaEntradaySalida(int x, int y, boolean[][] visitados) {
         if (x == s2 && y == f2) {
             hayRuta = true;
@@ -123,6 +160,9 @@ public class Maze {
         }
     }
 
+    /**
+    * Metodo que le da aleatoriedad a la seleccion de una dirreccion.
+    */
     private void barajar(int[] arr) {
         for (int i = arr.length - 1; i > 0; i--) {
             int j = random.nextInt(i + 1);
@@ -132,12 +172,18 @@ public class Maze {
         }
     }
 
+    /**
+    * Metodo que abre paredes entre dos cuartos
+    */
     private void demolerPared(int x, int y, int direccion) {
         int mask = ~direccion;
         int actual = maze[x][y].getWall();
         maze[x][y].setWall(actual & mask);
     }
 
+    /**
+    * Metodo para obtener la direccion opuesta de la direccion dada
+    */
     private int getDireccionOpuesta(int direccion) {
         switch (direccion) {
             case ESTE:
@@ -153,14 +199,16 @@ public class Maze {
         }
     }
 
+    /**
+    * Metodo que genera un arreglod e bytes util para imprimir el laberinto linealmente
+    */
     public byte[] getMazeByte(){
         byte[] mze = new byte[columnas * renglones];
         int i = 0;
-        for (int y = 0; y < renglones; y++) {
-            for (int x = 0; x < columnas; x++) {
+        for (int y = 0; y < renglones; y++) 
+            for (int x = 0; x < columnas; x++) 
                 mze[i++] = (byte) maze[x][y].wallAndScore;
-            }
-        }
+            
         return mze;
     }
 

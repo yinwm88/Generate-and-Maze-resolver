@@ -118,6 +118,7 @@ public class GenerarMaze {
     public static void generarMze() {
         Random random = s ? new Random(semilla) : new Random();
         Maze maze = new Maze(columnas, renglones, random);
+        maze.iniciarMaze();
         byte[] mze = new byte[6 + columnas * renglones];
         byte[] mazeByte = maze.getMazeByte();
         int i = 0;
