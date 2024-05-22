@@ -320,5 +320,35 @@ public class Maze {
         return graficaMaze;
     }
 
-   
+    // Metodo que usa dijkstra para devolver la ruta de peso minimo
+    public Lista<VerticeGrafica<Room>> mazeDijkstra(Room[][] mazeG)throws InvalidMazeException {
+        Grafica<Room> grafica = mazeTografica(mazeG);
+        if(grafica==null)throw new InvalidMazeException("Laberinto invalido: No se pudo crear la grafica ya que el laberinto no cumplio con algun criterio."); 
+        Room inicio = maze[s1][f1], fin=maze[s2][f2];
+        return grafica.dijkstra(inicio, fin);     
+    }
+
+/***
+ * 
+    // Metodo que convierte la ruta de peso minimo en byte[]
+    private byte[] trayectoriaMinima(Lista<VerticeGrafica<Room>> resultadoDijkstra){
+
+    }
+
+    // Metodo que regresa el laberinto como SVG
+    private String getMazeRoomSVG(Room[][] maze){
+        
+    }
+    
+    // Metodo que regresa el svg de la ruta encontrada
+    private String getMazePath(byte[] ruta){
+        
+    }
+
+    // Metodo que regresa el svg del laberinto solucionado 
+    public String getMazeSVG(Room[][] maze, byte[] ruta){
+        
+    }
+ */
+
 }
