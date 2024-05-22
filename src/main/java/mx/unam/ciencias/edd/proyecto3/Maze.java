@@ -215,34 +215,110 @@ public class Maze {
 
 
     // Metodo que convierte maze a grafica ponderada
-    private Lista<VerticeGrafica<Room>> mazeTografica(Room[][] maze){
-        Lista<VerticeGrafica<Room>> m = new Lista<>();
-        return m;
+    private Grafica<Room> mazeTografica(Room[][] maze){
+        Grafica<Room> graficaMaze = new Grafica<>();
+        //llenamos la grafica de vertices(cuartos)
+        for (int x = 0; x < columnas; x++) {
+            for (int y = 0; y < renglones; y++) {
+                graficaMaze.agrega(maze[x][y]);
+            }
+        }
+
+        //invalidamos los indices de la entrada y salida
+        s1 = -1; f1 = -1; s2 = -1; f2 = -1;
+        //llenamos las aristas
+        for(int x=0; x<columnas; x++){
+            for(int y=0;y<renglones;y++){
+                Room cuarto = maze[x][y];
+                // si no tiene pared ESTE
+                if((cuarto.getWall()&ESTE)==0)
+                    if(x+1 < columnas){
+                        if((maze[x+1][y].getWall()&OESTE)!=0){
+                            System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (ESTE/OESTE).");
+                            return null;
+                        }
+                        graficaMaze.conecta(cuarto,maze[x+1][y], 1+cuarto.getScore()+cuarto.getScore() );
+                    }
+                
+                // si no tiene pared NORTE
+                if((cuarto.getWall()&NORTE)==0)
+                    if(y-1 >= 0){
+                        if((maze[x][y-1].getWall()&SUR)!=0){
+                            System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (NORTE/SUR).");
+                            return null;
+                        }
+                        graficaMaze.conecta(cuarto,maze[x][y-1], 1+cuarto.getScore()+cuarto.getScore() );
+                    }
+                
+
+                // si no tiene pared OESTE
+                if((cuarto.getWall()&OESTE)==0)
+                    if(x-1 >= 0){
+                        if((maze[x-1][y].getWall()&ESTE)!=0){
+                            System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (OESTE/ESTE).");
+                            return null;
+                        }
+                        graficaMaze.conecta(cuarto,maze[x-1][y], 1+cuarto.getScore()+cuarto.getScore() );
+                    }
+
+                // si no tiene pared NORTE
+                if((cuarto.getWall()&NORTE)==0)
+                    if(y+1 < renglones){
+                        if((maze[x][y+1].getWall()&SUR)!=0){
+                            System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (NORTE/SUR).");
+                            return null;
+                        }
+                        graficaMaze.conecta(cuarto,maze[x][y+1], 1+cuarto.getScore()+cuarto.getScore() );
+                    }
+
+                //Encontrar inicio y fin 
+                if(y==0 && (cuarto.getWall()&NORTE)==0){
+                    if (s1 == -1) {
+                        s1 = x; f1 = y;
+                    } else if (s2 == -1) {
+                        s2 = x; f2 = y;
+                    } else {
+                        System.out.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                        return null;
+                    }
+                }else if(x==0 && (cuarto.getWall()&OESTE)==0){
+                    if (s1 == -1) {
+                        s1 = x; f1 = y;
+                    } else if (s2 == -1) {
+                        s2 = x; f2 = y;
+                    } else {
+                        System.out.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                        return null;
+                    }
+                }else if(y==renglones-1 && (cuarto.getWall()&SUR)==0){
+                    if (s1 == -1) {
+                        s1 = x; f1 = y;
+                    } else if (s2 == -1) {
+                        s2 = x; f2 = y;
+                    } else {
+                        System.out.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                        return null;
+                    }
+                }else if(x==columnas-1 && (cuarto.getWall()&ESTE)==0){
+                    if (s1 == -1) {
+                        s1 = x; f1 = y;
+                    } else if (s2 == -1) {
+                        s2 = x; f2 = y;
+                    } else {
+                        System.out.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                        return null;
+                    }
+                }  
+            }
+        }
+
+        // Verificar si se encontró  una entrada y una salida
+        if (s1 == -1 || s2 == -1) {
+            System.err.println("Laberinto inválido: no se encontraron una entrada y una salida.");
+            return null;
+        }
+        return graficaMaze;
     }
 
-    // Metodo que usa dijkstra para devolver la ruta de peso minimo
-    private byte[] mazeDijkstra(Lista<VerticeGrafica<Room>> mazeGrafica){
-        return getMazeByte();
-    }
-
-    // Metodo que convierte la ruta de peso minimo en byte[]
-    private byte[] trayectoriaMinima(Lista<VerticeGrafica<Room>> resultadoDijkstra){
-        return getMazeByte();
-    }
-
-    // Metodo que regresa el laberinto como SVG
-    private String getMazeRoomSVG(Room[][] maze){
-        return "";
-    }
-    
-    // Metodo que regresa el svg de la ruta encontrada
-    private String getMazePath(byte[] ruta){
-        return "";
-    }
-
-    // Metodo que regresa el svg del laberinto solucionado 
-    public String getMazeSVG(Room[][] maze, byte[] ruta){
-        return "";
-    }
-
+   
 }
