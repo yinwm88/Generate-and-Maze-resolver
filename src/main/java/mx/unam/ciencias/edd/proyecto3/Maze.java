@@ -215,8 +215,34 @@ public class Maze {
 
 
     // Metodo que convierte maze a grafica ponderada
+    private Lista<VerticeGrafica<Room>> mazeTografica(Room[][] maze){
+        Lista<VerticeGrafica<Room>> m = new Lista<>();
+        return m;
+    }
+
     // Metodo que usa dijkstra para devolver la ruta de peso minimo
+    private byte[] mazeDijkstra(Lista<VerticeGrafica<Room>> mazeGrafica){
+        return getMazeByte();
+    }
+
     // Metodo que convierte la ruta de peso minimo en byte[]
+    private byte[] trayectoriaMinima(Lista<VerticeGrafica<Room>> resultadoDijkstra){
+        return getMazeByte();
+    }
+
     // Metodo que regresa el laberinto como SVG
+    private String getMazeRoomSVG(Room[][] maze){
+        return "";
+    }
+    
     // Metodo que regresa el svg de la ruta encontrada
+    private String getMazePath(byte[] ruta){
+        return "";
+    }
+
+    // Metodo que regresa el svg del laberinto solucionado 
+    public String getMazeSVG(Room[][] maze, byte[] ruta){
+        return "";
+    }
+
 }

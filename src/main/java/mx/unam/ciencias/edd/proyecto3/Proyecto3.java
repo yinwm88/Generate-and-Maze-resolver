@@ -9,24 +9,17 @@ import java.io.BufferedInputStream;
 
 public class Proyecto3 {
     public static void main(String[] args){
-        /**
-         * 
+        /**  
         if (args.length == 0) {
-            // leemos el archivo .mze para resolver el laberinto
-            BufferedInputStream in = new BufferedInputStream(System.in);
-            GenerarMaze laberinto = new GenerarMaze(in);
-            
+            ResolverMaze.leerMze();
+            ResolverMaze.ResolverMaze();
         }else{
-            // sino , entonces generamos el laberinto e dentificamos banderas si es que hay
-            // obtenemos las banderas de la entrada estandar.
-            // pasamos los parametros corresponidentes a ResolverMaze
-
-
-
-
+            if(GenerarMaze.getValues(args))GenerarMaze.generarMze();
         }
-         */
-        if(GenerarMaze.getValues(args))GenerarMaze.generarMze();
+        */
+        BufferedInputStream in = new BufferedInputStream(System.in);
+        ResolverMaze.leerMze(in);
+        ResolverMaze.resolverMaze();
     }
 
 }
