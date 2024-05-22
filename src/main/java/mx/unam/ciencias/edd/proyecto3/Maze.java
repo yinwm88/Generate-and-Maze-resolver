@@ -1,5 +1,6 @@
 package mx.unam.ciencias.edd.proyecto3;
 
+import mx.unam.ciencias.edd.*;
 import java.util.Random;
 
 /** 
@@ -58,12 +59,11 @@ public class Maze {
         int i = 0;
         for (int y = 0; y < renglones; y++) 
             for (int x = 0; x < columnas; x++) 
-                maze[x][y] = new Room(mazeByte[i++]);
-            
+                maze[x][y] = new Room(mazeByte[i++]);    
     }
 
     /**
-    * Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido*
+    * Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido
     */
     public void iniciarMaze() {
         allWallrandomScore();
@@ -76,7 +76,7 @@ public class Maze {
     /**
     * Metodo que agrega un cuarto al laberinto con su puntaje y paredes corresondientes
     */
-    public void agregarRoom(int x, int y, int score, int walls){
+    private void agregarRoom(int x, int y, int score, int walls){
         maze[x][y] = new Room(score << 4 | walls);
     }
 
@@ -200,7 +200,7 @@ public class Maze {
     }
 
     /**
-    * Metodo que genera un arreglod e bytes util para imprimir el laberinto linealmente
+    * Metodo que genera un arreglo de bytes, util para imprimir el laberinto linealmente
     */
     public byte[] getMazeByte(){
         byte[] mze = new byte[columnas * renglones];
@@ -212,7 +212,11 @@ public class Maze {
         return mze;
     }
 
-    //  Metodo que regresa el laberinto como SVG
-    //  Metodo que regresa el svg de la ruta encontrada
 
+
+    // Metodo que convierte maze a grafica ponderada
+    // Metodo que usa dijkstra para devolver la ruta de peso minimo
+    // Metodo que convierte la ruta de peso minimo en byte[]
+    // Metodo que regresa el laberinto como SVG
+    // Metodo que regresa el svg de la ruta encontrada
 }

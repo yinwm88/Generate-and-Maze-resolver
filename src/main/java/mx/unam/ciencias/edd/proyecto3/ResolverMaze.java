@@ -2,9 +2,7 @@ package mx.unam.ciencias.edd.proyecto3;
 
 import mx.unam.ciencias.edd.*;
 import java.io.BufferedInputStream;
-import java.io.PrintStream;
 import java.io.IOException;
-import java.util.Random;
 
 
 public class ResolverMaze {
@@ -16,8 +14,11 @@ public class ResolverMaze {
     // Arreglo que contiene el laberinto en bytes
     private byte[] mazeByte;
 
-    //  leer archivo  y revisar que la estructura del archivo sea valida y ademas llenamos el mazeByte.
-    public void crearMaze(BufferedInputStream input){
+    /** 
+     * Metodo para leer archivo mze y revisar que la estructura 
+     * del archivo sea valida e inicializamos el mazeByte 
+    */
+    public void leerMze(BufferedInputStream input){
         try{
             int i= 0;
             int j = 0;
@@ -52,27 +53,22 @@ public class ResolverMaze {
                 }
                 i++;
             }
-        
-            if(mazeByte.length != (columnas*renglones)){
+            if(mazeByte.length != (columnas*renglones))
                 System.err.println("Faltan elementos con base a las columnas y renglones proporcionados.");
-            }else{
-                // Obtener un mazeRoom  
-                Maze maze = new Maze(mazeByte, columnas, renglones);
-                // luego usamos un metodo que lo convierte a grafica ponderada
-                // Usa  Metodo que usa dijkstra para devolver la ruta mas corta
-
-            }
         } catch (IOException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
         }
     }
 
-
-
-
-    //  Imprimir el laberinto -> podemos usar el metodo de Maze para dibujar el laberintos en svg
-    //  Imprimir camino -> podemos usar un metood de la clase Maze que dibujar la solucion  en svg dada un arreglo que contiene unicamente las casillas por las que hay que pasar
-    
-
+    /**
+     * Metodo que resuleve el maze e imprime la solucion en svg
+    */
+    public void resolverMaze(){ 
+        Maze maze = new Maze(mazeByte, columnas, renglones);
+        //  Metodo que lo convierte a grafica ponderada
+        //  Metodo que usa dijkstra para devolver la ruta mas corta
+        //  Metodo que regresa el laberinto como SVG
+        //  Metodo que regresa el svg de la ruta encontrada
+    }
 
 }

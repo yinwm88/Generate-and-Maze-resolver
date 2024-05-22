@@ -145,9 +145,6 @@ public class GenerarMaze {
             out.close();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
-        }
-
-
-        
+        }  
     }
 }
