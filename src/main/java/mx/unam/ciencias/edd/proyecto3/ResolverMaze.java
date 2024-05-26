@@ -65,12 +65,9 @@ public class ResolverMaze {
     /**
      * Metodo que resuleve el maze e imprime la solucion en svg
     */
-    public static void resolverMaze(){ 
+    public static void resolverMaze() throws InvalidMazeException{ 
         Maze maze = new Maze(mazeByte, columnas, renglones);
-        //  Metodo que lo convierte a grafica ponderada
-        //  Metodo que usa dijkstra para devolver la ruta mas corta
-        //  Metodo que regresa el laberinto como SVG
-        //  Metodo que regresa el svg de la ruta encontrada
+        System.out.println(maze.graficarSolucion());
     }
 
 }

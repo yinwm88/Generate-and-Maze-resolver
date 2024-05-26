@@ -8,7 +8,7 @@ import java.io.BufferedInputStream;
  */
 
 public class Proyecto3 {
-    public static void main(String[] args){
+    public static void main(String[] args)throws InvalidMazeException{
         /**  
         if (args.length == 0) {
             ResolverMaze.leerMze();

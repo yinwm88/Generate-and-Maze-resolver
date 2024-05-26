@@ -369,7 +369,7 @@ public class Grafica<T> implements Coleccion<T> {
      * @param elemento el elemento del que queremos el vértice.
      * @throws NoSuchElementException si elemento no es elemento de la gráfica.
      * @return el vértice correspondiente el elemento recibido.
-     */
+     */ 
     public VerticeGrafica<T> vertice(T elemento) {
 
         for(Vertice v : vertices)
