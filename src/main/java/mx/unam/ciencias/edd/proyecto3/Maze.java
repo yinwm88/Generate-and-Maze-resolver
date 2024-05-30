@@ -350,9 +350,7 @@ public class Maze {
                 if ((wall & OESTE) != 0) svg.append("<line x1=\"" + x * 10 + "\" y1=\"" + y * 10 + "\" x2=\"" + x * 10 + "\" y2=\"" + (y + 1) * 10 + "\" stroke=\"black\"/>");
             }
         }
-        // Agregar el marcador de inicio
         svg.append("<circle cx=\"" + (s1 * 10 + 5) + "\" cy=\"" + (f1 * 10 + 5) + "\" r=\"3\" fill=\"green\"/>");
-        // Agregar el marcador de fin
         svg.append("<circle cx=\"" + (s2 * 10 + 5) + "\" cy=\"" + (f2 * 10 + 5) + "\" r=\"3\" fill=\"red\"/>");
         svg.append("</svg>");
         return svg.toString();
@@ -363,19 +361,44 @@ public class Maze {
     */
     public String graficarSolucion()  throws InvalidMazeException{
         Lista<VerticeGrafica<Room>> path = mazeDijkstra();
-        StringBuilder svg = new StringBuilder(graficarMaze());
-        svg.insert(svg.indexOf("</svg>"), "<polyline points=\"");
-        for (VerticeGrafica room : path) {
-            int x = 0, y = 0;
-            outer: for (x = 0; x < columnas; x++) {
-                for (y = 0; y < renglones; y++) {
-                    if (maze[x][y] == room) break outer;
+        if(!path.esVacia()){
+            
+            StringBuilder svg = new StringBuilder(graficarMaze());
+
+            // Start constructing the polyline
+            StringBuilder polylinePoints = new StringBuilder();
+
+            for (VerticeGrafica<Room> vertice : path) {
+                Room room = vertice.get();
+                int x = -1, y = -1;
+
+                // Find the room coordinates
+                outer: for (int i = 0; i < columnas; i++) {
+                    for (int j = 0; j < renglones; j++) {
+                        if (maze[i][j] == room) {
+                            x = i;
+                            y = j;
+                            break outer;
+                        }
+                    }
+                }
+
+                // Ensure coordinates were found
+                if (x != -1 && y != -1) {
+                    polylinePoints.append(x * 10 + 5).append(",").append(y * 10 + 5).append(" ");
+                } else {
+                    System.err.println("Error: Room not found in maze array.");
                 }
             }
-            svg.insert(svg.indexOf("</svg>"), x * 10 + 5 + "," + y * 10 + 5 + " ");
+
+            // Insert the polyline into the SVG
+            svg.insert(svg.indexOf("</svg>"), "<polyline points=\"" + polylinePoints.toString() + "\" stroke=\"black\" fill=\"none\"/>");
+            return svg.toString();
         }
-        svg.insert(svg.indexOf("</svg>"), "\" stroke=\"red\" fill=\"none\"/>");
-        return svg.toString();
+        return "No hay solucion";
     }
+
+    
+
 
 }

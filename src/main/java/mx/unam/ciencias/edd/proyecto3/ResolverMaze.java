@@ -68,6 +68,7 @@ public class ResolverMaze {
     public static void resolverMaze() throws InvalidMazeException{ 
         Maze maze = new Maze(mazeByte, columnas, renglones);
         System.out.println(maze.graficarSolucion());
+        
     }
 
 }
