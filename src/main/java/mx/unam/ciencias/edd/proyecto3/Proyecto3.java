@@ -9,17 +9,13 @@ import java.io.BufferedInputStream;
 
 public class Proyecto3 {
     public static void main(String[] args)throws InvalidMazeException{
-        /**  
         if (args.length == 0) {
-            ResolverMaze.leerMze();
-            ResolverMaze.ResolverMaze();
+            BufferedInputStream in = new BufferedInputStream(System.in);
+            ResolverMaze.leerMze(in);
+            ResolverMaze.resolverMaze();
         }else{
             if(GenerarMaze.getValues(args))GenerarMaze.generarMze();
         }
-        */
-        BufferedInputStream in = new BufferedInputStream(System.in);
-        ResolverMaze.leerMze(in);
-        ResolverMaze.resolverMaze();
     }
 
 }
