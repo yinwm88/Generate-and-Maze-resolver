@@ -55,6 +55,19 @@ public class Maze {
         this.maze = new Room[columnas][renglones];
     }
 
+    /**
+    * Constructor para resolver  un laberinto dado
+    */
+    public Maze(byte[] mazeByte, int columnas, int renglones) {
+        this.columnas = columnas;
+        this.renglones = renglones;
+        this.maze = new Room[columnas][renglones];
+        int i = 0;
+        for (int y = 0; y < renglones; y++) 
+            for (int x = 0; x < columnas; x++) 
+                maze[x][y] = new Room(mazeByte[i++]);    
+    }
+
 
     /**
     * Metodo que inicializa un laberinto con puntajes aleatorios y un recorrido valido
@@ -194,22 +207,6 @@ public class Maze {
         }
     }
 
-
-    /**
-    * Constructor para resolver  un laberinto dado
-    */
-    public Maze(byte[] mazeByte, int columnas, int renglones) {
-        this.columnas = columnas;
-        this.renglones = renglones;
-        this.maze = new Room[columnas][renglones];
-        int i = 0;
-        for (int y = 0; y < renglones; y++) 
-            for (int x = 0; x < columnas; x++) 
-                maze[x][y] = new Room(mazeByte[i++]);    
-    }
-
-
-
     /**
     * Metodo que genera un arreglo de bytes, util para imprimir el laberinto linealmente
     */
@@ -269,8 +266,6 @@ public class Maze {
     }
 
     private void crearAristas(){
-        if(verificarConsistencia()){
-
             for(int y=0;y<renglones;y++){
                 for(int x=0; x<columnas; x++){
                     
@@ -296,9 +291,6 @@ public class Maze {
                             graficaMaze.conecta(cuarto,maze[x][y+1], 1+cuarto.getScore()+cuarto.getScore() );  
                 }
             }
-        }else{
-            System.err.println("Hay inconsistencia");
-        }
     }
 
     private void asignarIo(){
@@ -349,12 +341,16 @@ public class Maze {
     // Metodo que convierte maze a guna rafica ponderada
     private void mazeTografica(){
         graficaMaze.limpia();
-        crearVertices();
-        crearAristas();
+        asignarIo();
         if (s1 == -1 || s2 == -1) {
             System.err.println("No hay entrada ni salida.");
         }else{
-            asignarIo();
+            crearVertices();
+            if(verificarConsistencia()){
+                crearAristas();
+            }else{
+                System.err.println("Hay inconsistencia");
+            }
         }
     }
 
@@ -362,10 +358,10 @@ public class Maze {
     private Lista<VerticeGrafica<Room>> mazeDijkstra() throws InvalidMazeException {
         mazeTografica();
         Lista<VerticeGrafica<Room>> lista = new Lista<>();
-        if(graficaMaze.esVacia() && s1<0 && s2<0 && f1<0 && f2<0){
+        if(graficaMaze.esVacia()){
             System.err.println("Laberinto invalido: No se pudo recorrer la grafica ya que no se contruyo un laberinto valido.");  
         } else{
-            Room inicio = maze[s1][f1], fin=maze[s2][f2];
+            Room inicio = maze[s1][f1], fin = maze[s2][f2];
             lista= graficaMaze.dijkstra(inicio, fin);        
         }  
         return lista;
@@ -397,41 +393,35 @@ public class Maze {
     */
     public String graficarSolucion()  throws InvalidMazeException{
         Lista<VerticeGrafica<Room>> path = mazeDijkstra();
-        if(!path.esVacia()){
-            
-            StringBuilder svg = new StringBuilder(graficarMaze());
+        if(path.esVacia()){
+            return "No hay solucion";
+        }
 
-            StringBuilder polylinePoints = new StringBuilder();
+        StringBuilder svg = new StringBuilder(graficarMaze());
+        StringBuilder polylinePoints = new StringBuilder();
+        for (VerticeGrafica<Room> vertice : path) {
+            Room room = vertice.get();
+            int x = -1, y = -1;
 
-            for (VerticeGrafica<Room> vertice : path) {
-                Room room = vertice.get();
-                int x = -1, y = -1;
-
-                outer: for (int i = 0; i < columnas; i++) {
-                    for (int j = 0; j < renglones; j++) {
-                        if (maze[i][j] == room) {
-                            x = i;
-                            y = j;
-                            break outer;
-                        }
+            outer: for (int i = 0; i < columnas; i++) {
+                for (int j = 0; j < renglones; j++) {
+                    if (maze[i][j] == room) {
+                        x = i;
+                        y = j;
+                        break outer;
                     }
-                }
-
-                if (x != -1 && y != -1) {
-                    polylinePoints.append(x * 10 + 5).append(",").append(y * 10 + 5).append(" ");
-                } else {
-                    System.err.println("Error: Room not found in maze array.");
                 }
             }
 
-            svg.insert(svg.indexOf("</svg>"), "<polyline points=\"" + polylinePoints.toString() + "\" stroke=\"black\" fill=\"none\"/>");
-            System.err.println("Se creo la solucion del laberinto con exito.");
-            return svg.toString();
+            if (x != -1 && y != -1) {
+                polylinePoints.append(x * 10 + 5).append(",").append(y * 10 + 5).append(" ");
+            } else {
+                System.err.println("Error: Room not found in maze array.");
+            }
         }
-        return "No hay solucion";
+        svg.insert(svg.indexOf("</svg>"), "<polyline points=\"" + polylinePoints.toString() + "\" stroke=\"black\" fill=\"none\"/>");
+        System.err.println("Se creo la solucion del laberinto con exito.");
+        return svg.toString();
     }
-
-    
-
 
 }
