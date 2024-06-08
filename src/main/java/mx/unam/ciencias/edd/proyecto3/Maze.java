@@ -238,30 +238,30 @@ public class Maze {
                 Room cuarto = maze[x][y];
 
                 if((cuarto.getWall()&ESTE)==0)
-                    if(x+1 < columnas && (maze[x+1][y].getWall()&OESTE)!=0){
+                    if(x+1 < columnas && ((maze[x+1][y].getWall()&OESTE)!=0)){
                         check&=false;
-                        System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (ESTE/OESTE).cuarto[" + x + "][" + y + "] y "  + " cuarto[" + (x+1) + "][" + y + "]");
+                        System.err.println("Laberinto invalido: se encontro incosistencia  (ESTE/OESTE) entre  cuarto[" + x + "][" + y + "] y "  + " cuarto[" + (x+1) + "][" + y + "]");
                     }
                 
                 // si no tiene pared NORTE
                 if((cuarto.getWall()&NORTE)==0)
-                    if(y-1 >= 0 && (maze[x][y-1].getWall()&SUR)!=0){
+                    if(y-1 >= 0 && ((maze[x][y-1].getWall()&SUR)!=0)){
                         check&=false;
-                        System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (NORTE/SUR).cuarto[" + x + "][" + y + "] y "  + " cuarto[" + x + "][" + (y-1) + "]");
+                        System.err.println("Laberinto invalido: se encontro incosistencia (NORTE/SUR)  entre  cuarto[" + x + "][" + y + "] y "  + " cuarto[" + x + "][" + (y-1) + "]");
                     }
 
                 // si no tiene pared OESTE
                 if((cuarto.getWall()&OESTE)==0)
-                    if(x-1 >= 0 && (maze[x-1][y].getWall()&ESTE)!=0){
+                    if(x-1 >= 0 && ((maze[x-1][y].getWall()&ESTE)!=0)){
                         check&=false;
-                        System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (OESTE/ESTE).cuarto[" + x + "][" + y + "] y "  + " cuarto[" + (x-1) + "][" + y + "]");
+                        System.err.println("Laberinto invalido: se encontro incosistencia (OESTE/ESTE) entre  cuarto[" + x + "][" + y + "] y "  + " cuarto[" + (x-1) + "][" + y + "]");
                     }
 
                 // si no tiene pared SUR
                 if((cuarto.getWall()&SUR)==0)
-                    if(y+1 < renglones && (maze[x][y+1].getWall()&NORTE)!=0){
+                    if(y+1 < renglones && ((maze[x][y+1].getWall()&NORTE)!=0)){
                         check&=false;
-                        System.err.println("Laberinto invalido: se encontro incosistencia entre dos cuartos (NORTE/SUR). cuarto[" + x + "][" + y + "] y "  + " cuarto[" + x + "][" + (y+1) + "]");
+                        System.err.println("Laberinto invalido: se encontro incosistencia (NORTE/SUR) entre  cuarto[" + x + "][" + y + "] y "  + " cuarto[" + x + "][" + (y+1) + "]");
                     }
             }
         }
@@ -277,22 +277,22 @@ public class Maze {
                     Room cuarto = maze[x][y];
                     // si no tiene pared ESTE
                     if((cuarto.getWall()&ESTE)==0)
-                        if(x+1 < columnas && !graficaMaze.sonVecinos(cuarto,maze[x+1][y]))
+                        if((x+1 < columnas) && (!graficaMaze.sonVecinos(cuarto,maze[x+1][y])))
                             graficaMaze.conecta(cuarto,maze[x+1][y], 1+cuarto.getScore()+cuarto.getScore() );
                     
                     // si no tiene pared NORTE
                     if((cuarto.getWall()&NORTE)==0)
-                        if(y-1 >= 0 && !graficaMaze.sonVecinos(cuarto,maze[x][y-1]))
+                        if((y-1 >= 0) && (!graficaMaze.sonVecinos(cuarto,maze[x][y-1])))
                             graficaMaze.conecta(cuarto,maze[x][y-1], 1+cuarto.getScore()+cuarto.getScore() );
                             
                     // si no tiene pared OESTE
                     if((cuarto.getWall()&OESTE)==0)
-                        if(x-1 >= 0 && !graficaMaze.sonVecinos(cuarto,maze[x-1][y]))
+                        if((x-1 >= 0) && (!graficaMaze.sonVecinos(cuarto,maze[x-1][y])))
                             graficaMaze.conecta(cuarto,maze[x-1][y], 1+cuarto.getScore()+cuarto.getScore() );
 
                     // si no tiene pared SUR
                     if((cuarto.getWall()&SUR)==0)
-                        if(y+1 < renglones && !graficaMaze.sonVecinos(cuarto,maze[x][y+1]))
+                        if((y+1 < renglones) && (!graficaMaze.sonVecinos(cuarto,maze[x][y+1])))
                             graficaMaze.conecta(cuarto,maze[x][y+1], 1+cuarto.getScore()+cuarto.getScore() );  
                 }
             }
@@ -309,37 +309,37 @@ public class Maze {
                 for(int x=0; x<columnas; x++){
                     Room cuarto = maze[x][y];
                     // ENCONTRAR COORDENADAS DEL INICIO Y DEL DESTINO
-                    if(y==0 && (cuarto.getWall()&NORTE)==0){
+                    if((y==0) && ((cuarto.getWall()&NORTE)==0)){
                         if (s1 == -1) {
                             s1 = x; f1 = y;
                         } else if (s2 == -1) {
                             s2 = x; f2 = y;
                         } else {
-                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada al Norte.");
                         }
-                    }else if(x==0 && (cuarto.getWall()&OESTE)==0){
+                    }else if((x==0) && ((cuarto.getWall()&OESTE)==0)){
                         if (s1 == -1) {
                             s1 = x; f1 = y;
                         } else if (s2 == -1) {
                             s2 = x; f2 = y;
                         } else {
-                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada al Oeste.");
                         }
-                    }else if(y==renglones-1 && (cuarto.getWall()&SUR)==0){
+                    }else if((y==renglones-1) && ((cuarto.getWall()&SUR)==0)){
                         if (s1 == -1) {
                             s1 = x; f1 = y;
                         } else if (s2 == -1) {
                             s2 = x; f2 = y;
                         } else {
-                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada al Sur.");
                         }
-                    }else if(x==columnas-1 && (cuarto.getWall()&ESTE)==0){
+                    }else if((x==columnas-1) && ((cuarto.getWall()&ESTE)==0)){
                         if (s1 == -1) {
                             s1 = x; f1 = y;
                         } else if (s2 == -1) {
                             s2 = x; f2 = y;
                         } else {
-                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada.");
+                            System.err.println("Laberinto inválido: más de una entrada o salida encontrada al Este.");
                         }
                     }  
                 }
@@ -425,6 +425,7 @@ public class Maze {
             }
 
             svg.insert(svg.indexOf("</svg>"), "<polyline points=\"" + polylinePoints.toString() + "\" stroke=\"black\" fill=\"none\"/>");
+            System.err.println("Se creo la solucion del laberinto con exito.");
             return svg.toString();
         }
         return "No hay solucion";
