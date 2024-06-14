@@ -349,7 +349,7 @@ public class Maze {
             if(verificarConsistencia()){
                 crearAristas();
             }else{
-                System.err.println("Hay inconsistencia");
+                System.err.println("Ahorita solo funciona con laberintos con dimensiones iguales.");
             }
         }
     }
